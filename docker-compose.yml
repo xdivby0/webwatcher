@@ -1,0 +1,6 @@
+version: '3'
+services:
+  backend:
+    image: "webwatcher"
+    restart: "always"
+    network_mode: "host"

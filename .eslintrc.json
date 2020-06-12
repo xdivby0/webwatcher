@@ -1,0 +1,19 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2020": true
+    },
+    "extends": [
+        "airbnb-base"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 11
+    },
+    "rules": {
+      "global-require": 0,
+      "no-unused-vars": 1,
+      "quotes": ["error", "double"],
+      "no-underscore-dangle": 0
+    }
+}
