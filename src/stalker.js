@@ -31,10 +31,15 @@ async function check(bot, stalker) {
     if (!stalkerInfo[stalker._id].oldValue || stalkerInfo[stalker._id].oldValue !== newValue) {
       bot.telegram.sendMessage(stalker.owner, `Old value was ${stalkerInfo[stalker._id].oldValue || "not defined"}\nNew Value is ${newValue}`);
       stalkerInfo[stalker._id].oldValue = newValue;
-    } else if (!stalkerInfo[stalker._id].lastMessage
-      || Date.now() - stalkerInfo[stalker._id].lastMessage >= stalker.messageInterval * 1000 * 60) {
-      // then only send when messageInterval is done
-      bot.telegram.sendMessage(stalker.owner, `Value did not change, still ${newValue}`);
+      stalkerInfo[stalker._id].lastMessage = Date.now();
+    } else if (!stalkerInfo[stalker._id].lastMessage) {
+      stalkerInfo[stalker._id].lastMessage = Date.now();
+    } else if (Date.now() - stalkerInfo[stalker._id].lastMessage
+    >= stalker.messageInterval * 1000 * 60) {
+      if (stalker.messageInterval !== 0) {
+        // then only send when messageInterval is done
+        bot.telegram.sendMessage(stalker.owner, `Value did not change, still ${newValue}`);
+      }
       stalkerInfo[stalker._id].lastMessage = Date.now();
     }
   }).catch(console.error);
