@@ -36,7 +36,7 @@ async function check(bot, stalker) {
       stalkerInfo[stalker._id].lastMessage = Date.now();
     } else if (Date.now() - stalkerInfo[stalker._id].lastMessage
     >= stalker.messageInterval * 1000 * 60) {
-      if (stalker.messageInterval !== 0) {
+      if (parseInt(stalker.messageInterval, 10) !== 0) {
         // then only send when messageInterval is done
         bot.telegram.sendMessage(stalker.owner, `Value did not change, still ${newValue}`);
       }
