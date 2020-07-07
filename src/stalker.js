@@ -6,6 +6,14 @@ const axios = require("axios");
 const stalkerInfo = {};
 
 // checks if the value has changed
+function deepValue(obj, path) {
+  let final = obj;
+  for (let i = 0, pathArray = path.split("."), len = pathArray.length; i < len; i += 1) {
+    final = final[pathArray[i]];
+  }
+  return final;
+}
+
 async function check(bot, stalker) {
   let config;
   if (stalker.method === "post") {
@@ -24,8 +32,14 @@ async function check(bot, stalker) {
     };
   }
   axios(config).then((res) => {
-    const root = htmlParser.parse(res.data);
-    const newValue = root.querySelector(stalker.querySelector).innerHTML;
+    let newValue = "";
+    if (stalker.format === "html") {
+      const root = htmlParser.parse(res.data);
+      newValue = root.querySelector(stalker.querySelector).innerHTML;
+    } else if (stalker.format === "json") {
+      // set newValue and let the following code check the change
+      newValue = deepValue(res.data, stalker.querySelector);
+    }
 
     // if new value should be sent instantly
     if (!stalkerInfo[stalker._id].oldValue || stalkerInfo[stalker._id].oldValue !== newValue) {

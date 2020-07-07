@@ -22,6 +22,11 @@ module.exports = function (bot, db) {
     },
     (ctx) => {
       ctx.session.method = ctx.message.text;
+      ctx.reply("HTML, JSON or RAW?");
+      return ctx.wizard.next();
+    },
+    (ctx) => {
+      ctx.session.format = ctx.message.text;
       if (ctx.session.method.toLowerCase() === "post") {
         ctx.reply("Enter the post body");
         return ctx.wizard.next();
@@ -53,9 +58,17 @@ module.exports = function (bot, db) {
       return ctx.wizard.next();
     },
     (ctx) => {
-      ctx.session.messageInterval = ctx.message.text;
-      ctx.reply("Enter your query selector");
-      return ctx.wizard.next();
+      if (ctx.session.format.toLowerCase() === "html") {
+        ctx.session.messageInterval = ctx.message.text;
+        ctx.reply("Enter your HTML query selector");
+        return ctx.wizard.next();
+      } if (ctx.session.format.toLowerCase() === "json") {
+        ctx.session.messageInterval = ctx.message.text;
+        ctx.reply("Enter your JSON query");
+        return ctx.wizard.next();
+      }
+      ctx.wizard.next();
+      return ctx.wizard.steps[ctx.wizard.cursor](ctx);
     },
     async (ctx) => {
       const stalkerObj = {
@@ -67,6 +80,7 @@ module.exports = function (bot, db) {
         messageInterval: ctx.session.messageInterval,
         querySelector: ctx.message.text,
         owner: ctx.from.id,
+        format: ctx.session.format.toLowerCase(),
       };
       await db.collection("stalkers").insertOne(stalkerObj).catch(console.error);
 
