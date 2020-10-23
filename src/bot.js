@@ -67,8 +67,8 @@ module.exports = function (bot, db) {
         ctx.reply("Enter your JSON query");
         return ctx.wizard.next();
       }
-      ctx.wizard.next();
-      return ctx.wizard.steps[ctx.wizard.cursor](ctx);
+      return ctx.wizard.next();
+      // return ctx.wizard.steps[ctx.wizard.cursor](ctx);
     },
     async (ctx) => {
       const stalkerObj = {
@@ -82,11 +82,13 @@ module.exports = function (bot, db) {
         owner: ctx.from.id,
         format: ctx.session.format.toLowerCase(),
       };
+
       await db.collection("stalkers").insertOne(stalkerObj).catch(console.error);
 
       stalkerModule.startStalker(bot, stalkerObj);
 
       ctx.reply("Thanks, creation is done. Your Stalker is up and running!");
+      ctx.reply(stalkerObj);
       return ctx.scene.leave();
     },
   );
