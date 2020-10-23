@@ -39,6 +39,8 @@ async function check(bot, stalker) {
     } else if (stalker.format === "json") {
       // set newValue and let the following code check the change
       newValue = deepValue(res.data, stalker.querySelector);
+    } else if (stalker.format === "raw") {
+      newValue = res.data;
     }
 
     // if new value should be sent instantly
