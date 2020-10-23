@@ -40,6 +40,7 @@ async function check(bot, stalker) {
       // set newValue and let the following code check the change
       newValue = deepValue(res.data, stalker.querySelector);
     } else if (stalker.format === "raw") {
+      bot.telegram.sendMessage(stalker.owner, `xyz ${res.data}`);
       newValue = res.data;
     }
 
