@@ -87,7 +87,7 @@ module.exports = function (bot, db) {
 
       stalkerModule.startStalker(bot, stalkerObj);
 
-      ctx.reply(`Thanks, creation is done. Your Stalker is up and running!\n\n${stalkerObj}`);
+      ctx.reply(`Thanks, creation is done! Your Stalker is up and running!\n\n${stalkerObj}`);
       return ctx.scene.leave();
     },
   );
