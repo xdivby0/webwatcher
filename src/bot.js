@@ -67,8 +67,8 @@ module.exports = function (bot, db) {
         ctx.reply("Enter your JSON query");
         return ctx.wizard.next();
       }
-      return ctx.wizard.next();
-      // return ctx.wizard.steps[ctx.wizard.cursor](ctx);
+      ctx.wizard.next();
+      return ctx.wizard.steps[ctx.wizard.cursor](ctx);
     },
     async (ctx) => {
       const stalkerObj = {
