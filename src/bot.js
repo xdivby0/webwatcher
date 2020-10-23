@@ -78,7 +78,7 @@ module.exports = function (bot, db) {
         contentType: ctx.session.contentType || "",
         interval: ctx.session.interval,
         messageInterval: ctx.session.messageInterval,
-        querySelector: ctx.message.text,
+        querySelector: ctx.message.text || "",
         owner: ctx.from.id,
         format: ctx.session.format.toLowerCase(),
       };
