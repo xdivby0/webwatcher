@@ -58,7 +58,9 @@ async function check(bot, stalker) {
       }
       stalkerInfo[stalker._id].lastMessage = Date.now();
     }
-  }).catch(console.error);
+  }).catch((e) => {
+    bot.telegram.sendMessage(stalker.owner, e);
+  });
 }
 
 // starts the checker function with setInterval
