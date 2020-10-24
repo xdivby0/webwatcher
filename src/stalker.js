@@ -35,6 +35,7 @@ async function check(bot, stalker) {
     let newValue = "";
     if (stalker.format === "html") {
       const root = htmlParser.parse(res.data);
+      console.log(root.querySelectorAll(stalker.querySelector).map((x) => x.innerHTML));
       newValue = root.querySelectorAll(stalker.querySelector).map((x) => x.innerHTML).join("\n");
     } else if (stalker.format === "json") {
       // set newValue and let the following code check the change
