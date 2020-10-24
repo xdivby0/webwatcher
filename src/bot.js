@@ -58,13 +58,15 @@ module.exports = function (bot, db) {
       return ctx.wizard.next();
     },
     (ctx) => {
+      ctx.session.messageInterval = ctx.message.text;
       if (ctx.session.format.toLowerCase() === "html") {
-        ctx.session.messageInterval = ctx.message.text;
         ctx.reply("Enter your HTML query selector");
         return ctx.wizard.next();
       } if (ctx.session.format.toLowerCase() === "json") {
-        ctx.session.messageInterval = ctx.message.text;
         ctx.reply("Enter your JSON query");
+        return ctx.wizard.next();
+      } if (ctx.session.format.toLowerCase() === "contains") {
+        ctx.reply("You will be notified when the following text is on the page");
         return ctx.wizard.next();
       }
       ctx.wizard.next();

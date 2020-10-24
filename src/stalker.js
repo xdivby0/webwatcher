@@ -42,11 +42,13 @@ async function check(bot, stalker) {
       newValue = deepValue(res.data, stalker.querySelector);
     } else if (stalker.format === "raw") {
       newValue = res.data;
+    } else if (stalker.format === "contains") {
+      newValue = res.data.includes(stalker.querySelector);
     }
 
     // if new value should be sent instantly
     if (!stalkerInfo[stalker._id].oldValue || stalkerInfo[stalker._id].oldValue !== newValue) {
-      bot.telegram.sendMessage(stalker.owner, `Old value was ${stalker.format !== "raw" ? (stalkerInfo[stalker._id].oldValue || "not defined") : " <raw> "}\nNew Value is ${stalker.format !== "raw" ? newValue : " <raw>"}`);
+      bot.telegram.sendMessage(stalker.owner, `Old value was ${stalker.format !== "raw" ? (stalkerInfo[stalker._id].oldValue || "not defined") : " <raw> "}\nNew Value is ${stalker.format !== "raw" ? newValue : " <raw>"}\n\n${stalker.url}`);
       stalkerInfo[stalker._id].oldValue = newValue;
       stalkerInfo[stalker._id].lastMessage = Date.now();
     } else if (!stalkerInfo[stalker._id].lastMessage) {
@@ -55,12 +57,12 @@ async function check(bot, stalker) {
     >= stalker.messageInterval * 1000 * 60) {
       if (parseInt(stalker.messageInterval, 10) !== 0) {
         // then only send when messageInterval is done
-        bot.telegram.sendMessage(stalker.owner, `Value did not change, still ${stalker.format !== "raw" ? newValue : ""}`);
+        bot.telegram.sendMessage(stalker.owner, `Value did not change, still ${stalker.format !== "raw" ? newValue : ""}\n\n${stalker.url}`);
       }
       stalkerInfo[stalker._id].lastMessage = Date.now();
     }
   }).catch((e) => {
-    bot.telegram.sendMessage(stalker.owner, e);
+    bot.telegram.sendMessage(stalker.owner, `${e}\n\n${stalker.url}`);
   });
 }
 
