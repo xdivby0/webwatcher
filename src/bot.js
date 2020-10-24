@@ -81,7 +81,7 @@ module.exports = function (bot, db) {
         interval: ctx.session.interval,
         messageInterval: ctx.session.messageInterval,
         querySelector: ctx.message.text || "",
-        owner: ctx.from.id,
+        owner: ctx.message.chat.id,
         format: ctx.session.format.toLowerCase(),
       };
 
