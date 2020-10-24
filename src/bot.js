@@ -22,7 +22,7 @@ module.exports = function (bot, db) {
     },
     (ctx) => {
       ctx.session.method = ctx.message.text;
-      ctx.reply("HTML, JSON or RAW?");
+      ctx.reply("HTML, JSON, CONTAINS or RAW?");
       return ctx.wizard.next();
     },
     (ctx) => {
@@ -66,7 +66,7 @@ module.exports = function (bot, db) {
         ctx.reply("Enter your JSON query");
         return ctx.wizard.next();
       } if (ctx.session.format.toLowerCase() === "contains") {
-        ctx.reply("You will be notified when the following text is on the page");
+        ctx.reply("You will be notified when which text is on the page?");
         return ctx.wizard.next();
       }
       ctx.wizard.next();
