@@ -103,7 +103,7 @@ module.exports = function (bot, db) {
     next();
   });
   bot.command("delete", (ctx, next) => {
-    db.collection("stalkers").find({ owner: ctx.from.id }).toArray((err, stalkers) => {
+    db.collection("stalkers").find({ owner: ctx.message.chat.id }).toArray((err, stalkers) => {
       if (err) {
         console.error(err);
       } else {
@@ -123,7 +123,7 @@ module.exports = function (bot, db) {
     ctx.editMessageReplyMarkup(Markup.inlineKeyboard([]));
     const cbData = ctx.callbackQuery.data;
     if (cbData === "cancel") return next();
-    db.collection("stalkers").deleteOne({ _id: new ObjectID(cbData), owner: ctx.from.id },
+    db.collection("stalkers").deleteOne({ _id: new ObjectID(cbData), owner: ctx.message.chat.id },
       (err) => {
         if (err) {
           console.error(err);
