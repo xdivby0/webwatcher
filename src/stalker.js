@@ -48,7 +48,7 @@ async function check(bot, stalker) {
     }
 
     // if new value should be sent instantly
-    if (!stalkerInfo[stalker._id].oldValue || stalkerInfo[stalker._id].oldValue !== newValue) {
+    if (typeof stalkerInfo[stalker._id].oldValue === "undefined" || stalkerInfo[stalker._id].oldValue !== newValue) {
       bot.telegram.sendMessage(stalker.owner, `Old value was ${stalker.format !== "raw" ? (stalkerInfo[stalker._id].oldValue ?? "not defined") : " <raw> "}\nNew Value is ${stalker.format !== "raw" ? newValue : " <raw>"}\n\n${stalker.url}`);
       stalkerInfo[stalker._id].oldValue = newValue;
       stalkerInfo[stalker._id].lastMessage = Date.now();
