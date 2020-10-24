@@ -31,7 +31,7 @@ async function check(bot, stalker) {
     let newValue = "";
     if (stalker.format === "html") {
       const root = htmlParser.parse(res.data);
-      newValue = root.querySelectorAll(stalker.querySelector).map((x) => x.innerHTML).join("\n");
+      newValue = root.querySelectorAll(stalker.querySelector).map((x) => x.innerHTML).join("\n\n");
     } else if (stalker.format === "json") {
       // set newValue and let the following code check the change
       newValue = deepValue(res.data, stalker.querySelector);
@@ -45,7 +45,7 @@ async function check(bot, stalker) {
 
     // if new value should be sent instantly
     if (typeof stalkerInfo[stalker._id].oldValue === "undefined" || stalkerInfo[stalker._id].oldValue !== newValue) {
-      bot.telegram.sendMessage(stalker.owner, `Old value was ${stalker.format !== "raw" ? (stalkerInfo[stalker._id].oldValue ?? "not defined") : " <raw> "}\nNew Value is ${stalker.format !== "raw" ? newValue : " <raw>"}\n\n${stalker.url}`);
+      bot.telegram.sendMessage(stalker.owner, `Old value was \n${stalker.format !== "raw" ? (stalkerInfo[stalker._id].oldValue ?? "not defined") : " <raw> "}\nNew Value is \n${stalker.format !== "raw" ? newValue : " <raw>"}\n\n${stalker.url}`);
       stalkerInfo[stalker._id].oldValue = newValue;
       stalkerInfo[stalker._id].lastMessage = Date.now();
     } else if (!stalkerInfo[stalker._id].lastMessage) {
