@@ -15,25 +15,20 @@ function deepValue(obj, path) {
 }
 
 async function check(bot, stalker) {
-  let config;
+  const config = {
+    url: stalker.url,
+    method: "get",
+    headers: {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0",
+      Connection: "keep-alive",
+      "Accept-Encoding": "gzip, deflate, br",
+      Accept: "*/*",
+    },
+  };
   if (stalker.method === "post") {
-    config = {
-      url: stalker.url,
-      method: "post",
-      data: stalker.postBody,
-      headers: {
-        "Content-Type": stalker.contentType,
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0",
-      },
-    };
-  } else {
-    config = {
-      url: stalker.url,
-      method: "get",
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0",
-      },
-    };
+    config.method = "post";
+    config.data = stalker.postBody;
+    config.headers["Content-Type"] = stalker.contentType;
   }
   axios(config).then((res) => {
     let newValue = "";
