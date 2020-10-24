@@ -123,7 +123,7 @@ module.exports = function (bot, db) {
     ctx.editMessageReplyMarkup(Markup.inlineKeyboard([]));
     const cbData = ctx.callbackQuery.data;
     if (cbData === "cancel") return next();
-    db.collection("stalkers").deleteOne({ _id: new ObjectID(cbData), owner: ctx.message.chat.id },
+    db.collection("stalkers").deleteOne({ _id: new ObjectID(cbData), owner: ctx.chat.id },
       (err) => {
         if (err) {
           console.error(err);
