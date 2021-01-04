@@ -35,6 +35,3 @@ Then start the webwatcher with pm2, Docker (`docker-compose up -d`) or whatever 
 
 ## Server Setup with CI/CD
 I developed this using Jenkins and two telegram bots (one for my local instance and one for the current live bot on my server). I found this the only convenient way. If someone would want to do this, the Jenkinsfile is in the repo too. All it does is basically do all the steps in the previous section automatically.
-
-## Jenkins Build
-If everything is setup right, you should be able to make a push to your own repositorys master branch and see Jenkins building your node.js application and deploying it with docker. After you [setup a webhook so telegram finds your server](https://core.telegram.org/bots/api#getting-updates), you should be able to write to your deployment bot too. 
